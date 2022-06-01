@@ -9,45 +9,26 @@ Matrix::Matrix(int inSize)
 			M[i] = (double*) new double[size];
 			for (int j = 0; j < size; j++) {
 				M[i][j] = 0;
+
 			}
-		}	
+		}
+		S.resize(size);
+		for (int i = 0; i < size; i++) {
+			S[i].resize(size,0);			
+		}
 }
 Matrix::~Matrix() {
 	//delete[] M;
 }
 double& Matrix::operator()(int row, int col) const
 {	
-	return (double&)M[row][col];
+	return (double&)S[row][col];
 }
 Matrix Matrix::operator*(const double& f)
 {	
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			(*this)(i, j) *= f;
-		}
-	}
-	return *this;
-}
-Matrix Matrix::operator!()
-{
-	Matrix newMatrix(size);
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			newMatrix(j, i) = (*this)(i, j);
-		}
-	}
-	return newMatrix;
-}
-Matrix& Matrix::operator=(const double& f)
-{	
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (i == j) {
-				(*this)(i, j) = f;
-			}
-			else {
-				(*this)(i, j) = 0;
-			}
 		}
 	}
 	return *this;
@@ -60,7 +41,7 @@ double Matrix::Determinant() const
 	}
 	for (int i = 0; i < size; i++) {
 		double a = (*this)(0, i) * (i % 2 ? 1 : -1);
-		determ += a * this->Minor(0, i).Determinant();
+		determ += a * Minor(0, i).Determinant();
 	}
 	return determ;
 }
@@ -69,7 +50,7 @@ Matrix Matrix::Reverse()
 	Matrix newMatrix(size);
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			newMatrix(i, j) = this->Minor(i, j).Determinant() * ((i + j) % 2 ? 1 : -1);
+			newMatrix(i, j) = Minor(i, j).Determinant() * ((i + j) % 2 ? 1 : -1);
 		}
 	}
 	return newMatrix*(1/Determinant());
