@@ -3,19 +3,11 @@
 
 Matrix::Matrix(int inSize)
 {	
-		size = inSize;
-		M = (double**) new double[size];
-		for (int i = 0; i < size; i++) {
-			M[i] = (double*) new double[size];
-			for (int j = 0; j < size; j++) {
-				M[i][j] = 0;
-
-			}
-		}
-		S.resize(size);
-		for (int i = 0; i < size; i++) {
-			S[i].resize(size,0);			
-		}
+	size = inSize;
+	S.resize(size);
+	for (int i = 0; i < size; i++) {
+		S[i].resize(size,0);			
+	}
 }
 Matrix::~Matrix() {
 	//delete[] M;
@@ -50,7 +42,7 @@ Matrix Matrix::Reverse()
 	Matrix newMatrix(size);
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			newMatrix(i, j) = Minor(i, j).Determinant() * ((i + j) % 2 ? 1 : -1);
+			newMatrix(j,i) = Minor(i, j).Determinant() * ((i + j) % 2 ? 1 : -1);
 		}
 	}
 	return newMatrix*(1/Determinant());
@@ -75,7 +67,7 @@ void Matrix::Print()
 	int i, j;
 	for (i = 0; i < size; i++) {
 		for (j = 0; j < size; j++) {
-			std::cout << (*this).M[i][j]<<' ';
+			std::cout << (*this)(i,j)<<' ';
 		}
 		std::cout << std::endl;
 	}
@@ -83,18 +75,14 @@ void Matrix::Print()
 
 Slau::Slau(int inSize):Matrix(inSize)
 {
-	B = new double[inSize];	
-	X = new double[inSize];
-	for (int i = 0; i < inSize; i++) {
-		B[i] = 0;
-		X[i] = 0;
-	}
+	B.resize(size,0);
+	X.resize(size,0);
 }
 Slau::~Slau() {
 	//delete[] M;
 	//delete[] B;
 }
-double* Slau::solve() {	
+std::vector<double> Slau::solve() {
 	Matrix rev(size);
 	rev = this->Reverse();	
 	for (int i = 0; i < size; i++) {

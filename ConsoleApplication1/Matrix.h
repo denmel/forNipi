@@ -3,8 +3,7 @@
 class Matrix
 {
 public:
-	std::vector < std::vector<double> > S;
-	double** M;
+	std::vector < std::vector<double> > S;	
 	int size;
 	Matrix(int inSize);
 	~Matrix();
@@ -18,10 +17,10 @@ public:
 
 class Slau:public Matrix {
 public:
-	double* B;
-	double* X;
+	std::vector<double> B;
+	std::vector<double> X;
 	Slau(int inSize);
 	~Slau();
-	double* solve();
+	std::vector<double> solve();
 	double norma();
 };

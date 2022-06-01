@@ -10,10 +10,10 @@ const string inputFile = "C:\\Users\\denis\\source\\repos\\ConsoleApplication1\\
 const string outputFile = "C:\\Users\\denis\\source\\repos\\ConsoleApplication1\\x64\\Debug\\output.txt";
 int main(int argc, char* argv[])
 {	
-	Calc calc = Calc(0.1, 0.000001);
+	Calc calc = Calc(0.01, 0.001);
 	calc.readData(inputFile);
 	calc.save(outputFile);
-	while (calc.t < 20) {	
+	while (calc.t < 1) {	
 		//calc.stepEuler();
 		calc.stepRK();
 		//calc.stepSymplecticVerle();
@@ -22,5 +22,5 @@ int main(int argc, char* argv[])
 		
 		calc.save(outputFile);
 		calc.print();
-	}
+	}	
 }
